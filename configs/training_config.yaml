@@ -1,0 +1,304 @@
+# CWG-RGB benchmark training configuration
+# This file records the dataset settings, experimental groups and reproduction commands
+# used for the CWG-RGB benchmark experiments.
+
+project:
+  dataset_name: CWG-RGB
+  version: v1.0.0
+  task: urban waterway floating garbage detection
+  annotation_format: YOLO
+
+environment:
+  hardware:
+    workstation: Precision 7865 Tower
+    cpu: AMD Ryzen Threadripper PRO 5975WX 32-Core
+    ram: 256 GB
+    gpu: NVIDIA RTX A5500
+    gpu_memory: 24 GB
+  software:
+    operating_system: Windows 10
+    python_version: "3.10.11"
+    pytorch_version: "2.11.0+cu126"
+    cuda_version: "12.6"
+    ultralytics_yolo_version: "8.4.37"
+
+dataset:
+  root: CWG-RGB
+  original_data_yaml: configs/dataset.yaml
+  no_background_yaml: configs/data_no_bg.yaml
+  with_background_yaml: configs/data_with_bg.yaml
+
+  num_classes: 5
+  class_names:
+    0: Bags-Films
+    1: Wood
+    2: Foam
+    3: Bottles-Cans
+    4: Dead Fish
+
+data_split:
+  total_images: 1760
+  target_containing_images: 1176
+  background_negative_images: 584
+  total_target_instances: 3557
+
+  target_train_images: 919
+  target_val_images: 257
+  background_train_images: 100
+  background_val_images: 30
+  background_reserved_images: 454
+
+  benchmark_train_with_background: 1019
+  benchmark_val_with_background: 287
+
+  note: >
+    The original experiments were conducted using dataset.yaml and by manually
+    including or excluding background negative images. For reproducibility,
+    data_no_bg.yaml and data_with_bg.yaml are provided as explicit dataset
+    configuration files. Background negative images are empty-label images and
+    are not treated as an additional detection category.
+
+data_yaml_files:
+  dataset_yaml:
+    path: configs/dataset.yaml
+    description: Original YOLO dataset configuration used during model development.
+
+  data_no_bg_yaml:
+    path: configs/data_no_bg.yaml
+    description: Dataset configuration using only target-containing training and validation images.
+
+  data_with_bg_yaml:
+    path: configs/data_with_bg.yaml
+    description: Dataset configuration using target-containing images and selected background negative images.
+
+models:
+  official_pretrained_weights:
+    - yolov8n.pt
+    - yolov8s.pt
+    - yolo11n.pt
+    - yolo11s.pt
+
+  p2_model_config_source: Ultralytics built-in model YAML registry
+  p2_model_configs:
+    - yolov8n-p2.yaml
+    - yolov8s-p2.yaml
+    - yolo11n-p2.yaml
+    - yolo11s-p2.yaml
+
+training_default:
+  epochs: 300
+  batch_size: 8
+  workers: 4
+  pretrained: true
+  seed: 0
+  device: 0
+  default_ultralytics_settings: true
+
+training_adapted:
+  optimizer: AdamW
+  initial_learning_rate: 0.001
+  weight_decay: 0.0005
+  epochs: 300
+  batch_size: 8
+  workers: 4
+  input_size: 960
+
+experiment_groups:
+  input_resolution_comparison:
+    description: >
+      Compare 640 and 960 input resolutions without background negative samples.
+    data: configs/data_no_bg.yaml
+    experiments:
+      - name: 640_no_bg_yolov8n
+        model: yolov8n.pt
+        imgsz: 640
+      - name: 640_no_bg_yolov8s
+        model: yolov8s.pt
+        imgsz: 640
+      - name: 640_no_bg_yolo11n
+        model: yolo11n.pt
+        imgsz: 640
+      - name: 640_no_bg_yolo11s
+        model: yolo11s.pt
+        imgsz: 640
+      - name: 960_no_bg_yolov8n
+        model: yolov8n.pt
+        imgsz: 960
+      - name: 960_no_bg_yolov8s
+        model: yolov8s.pt
+        imgsz: 960
+      - name: 960_no_bg_yolo11n
+        model: yolo11n.pt
+        imgsz: 960
+      - name: 960_no_bg_yolo11s
+        model: yolo11s.pt
+        imgsz: 960
+
+  background_negative_sample_comparison:
+    description: >
+      Evaluate the effect of background negative samples on model performance.
+    experiments:
+      - name: 640_bg_yolov8n
+        model: yolov8n.pt
+        data: configs/data_with_bg.yaml
+        imgsz: 640
+      - name: 960_bg_yolov8n
+        model: yolov8n.pt
+        data: configs/data_with_bg.yaml
+        imgsz: 960
+      - name: 960_bg_yolov8s
+        model: yolov8s.pt
+        data: configs/data_with_bg.yaml
+        imgsz: 960
+      - name: 960_bg_yolo11n
+        model: yolo11n.pt
+        data: configs/data_with_bg.yaml
+        imgsz: 960
+      - name: 960_bg_yolo11s
+        model: yolo11s.pt
+        data: configs/data_with_bg.yaml
+        imgsz: 960
+
+  training_adapted_comparison:
+    description: >
+      Evaluate the AdamW-based training-adapted setting with background negative samples.
+    data: configs/data_with_bg.yaml
+    experiments:
+      - name: 960_bg_opt_yolov8n
+        model: yolov8n.pt
+        imgsz: 960
+        optimizer: AdamW
+        lr0: 0.001
+        weight_decay: 0.0005
+      - name: 960_bg_opt_yolov8s
+        model: yolov8s.pt
+        imgsz: 960
+        optimizer: AdamW
+        lr0: 0.001
+        weight_decay: 0.0005
+      - name: 960_bg_opt_yolo11n
+        model: yolo11n.pt
+        imgsz: 960
+        optimizer: AdamW
+        lr0: 0.001
+        weight_decay: 0.0005
+      - name: 960_bg_opt_yolo11s
+        model: yolo11s.pt
+        imgsz: 960
+        optimizer: AdamW
+        lr0: 0.001
+        weight_decay: 0.0005
+
+  p2_head_comparison:
+    description: >
+      Evaluate P2-head model configurations for small-object detection.
+      The P2 YAML names are resolved by Ultralytics from its built-in model
+      configuration registry and are not stored under the local configs directory.
+    data: configs/data_with_bg.yaml
+    experiments:
+      - name: 960_bg_opt_yolov8n_p2
+        model_config: yolov8n-p2.yaml
+        model_config_source: Ultralytics built-in
+        pretrained: yolov8n.pt
+        imgsz: 960
+        optimizer: AdamW
+        lr0: 0.001
+        weight_decay: 0.0005
+      - name: 960_bg_opt_yolov8s_p2
+        model_config: yolov8s-p2.yaml
+        model_config_source: Ultralytics built-in
+        pretrained: yolov8s.pt
+        imgsz: 960
+        optimizer: AdamW
+        lr0: 0.001
+        weight_decay: 0.0005
+      - name: 960_bg_opt_yolo11n_p2
+        model_config: yolo11n-p2.yaml
+        model_config_source: Ultralytics built-in
+        pretrained: yolo11n.pt
+        imgsz: 960
+        optimizer: AdamW
+        lr0: 0.001
+        weight_decay: 0.0005
+      - name: 960_bg_opt_yolo11s_p2
+        model_config: yolo11s-p2.yaml
+        model_config_source: Ultralytics built-in
+        pretrained: yolo11s.pt
+        imgsz: 960
+        optimizer: AdamW
+        lr0: 0.001
+        weight_decay: 0.0005
+
+evaluation:
+  split: validation
+  metrics:
+    - Precision
+    - Recall
+    - mAP@0.5
+    - mAP@0.5:0.95
+
+  standard_validation:
+    conf: 0.001
+    iou: 0.70
+    max_det: 300
+
+nms_calibration:
+  target_experiment: 960_bg_opt_yolov8s
+
+  search_grid:
+    conf:
+      - 0.25
+      - 0.30
+      - 0.35
+      - 0.40
+    iou:
+      - 0.40
+      - 0.45
+      - 0.50
+      - 0.55
+    max_det:
+      - 300
+
+  final_setting:
+    conf: 0.35
+    iou: 0.45
+    max_det: 300
+
+main_baseline:
+  name: 960_bg_opt_yolov8s
+  model: yolov8s.pt
+  data: configs/data_with_bg.yaml
+  imgsz: 960
+  epochs: 300
+  batch_size: 8
+  workers: 4
+  optimizer: AdamW
+  lr0: 0.001
+  weight_decay: 0.0005
+
+reproduction:
+  train_script: scripts/train.py
+  evaluate_script: scripts/evaluate.py
+  infer_script: scripts/infer.py
+
+  list_training_experiments: >
+    python scripts/train.py --exp list
+
+  main_training_command: >
+    python scripts/train.py --exp 960_bg_opt_yolov8s
+
+  p2_training_command: >
+    python scripts/train.py --exp 960_bg_opt_yolov8s_p2
+
+  main_evaluation_command: >
+    python scripts/evaluate.py --exp 960_bg_opt_yolov8s
+
+  nms_calibrated_evaluation_command: >
+    python scripts/evaluate.py --exp 960_bg_opt_yolov8s --preset nms_calibrated
+
+  nms_grid_command: >
+    python scripts/evaluate.py --exp 960_bg_opt_yolov8s --nms-grid
+
+  inference_command: >
+    python scripts/infer.py --weights runs/train/960_bg_opt_yolov8s/weights/best.pt
+    --source images/val --preset 960_nms_calibrated

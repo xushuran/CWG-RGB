@@ -1,0 +1,6 @@
+class_id,class_name,definition,annotation_note
+0,Bags-Films,Plastic bags plastic films and other soft sheet-like floating waste,Annotated when the object is visible on the water surface
+1,Wood,Wood branches sticks and other wood-like floating objects,Annotated when the object is regarded as floating garbage
+2,Foam,Foam blocks foam sheets and other foam-like floating waste,Annotated when the foam object has a clear visible boundary
+3,Bottles-Cans,Plastic bottles glass bottles metal cans and similar container-like waste,Annotated when the container-like object is visible on the water surface
+4,Dead Fish,Dead fish floating on or near the water surface,Annotated when the dead fish body is visually identifiable

@@ -1,0 +1,14 @@
+# CWG-RGB dataset configuration with background negative samples
+# This setting uses target-containing images and selected background negative images.
+
+path: ..
+
+train: splits/train_with_bg.txt
+val: splits/val_with_bg.txt
+
+names:
+  0: Bags-Films
+  1: Wood
+  2: Foam
+  3: Bottles-Cans
+  4: Dead Fish

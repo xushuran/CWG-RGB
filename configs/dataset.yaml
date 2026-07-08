@@ -1,0 +1,12 @@
+path: ..
+train: images/train
+val: images/val
+test:
+
+nc: 5
+names:
+    0: Bags-Films
+    1: Wood
+    2: Foam
+    3: Bottles-Cans
+    4: Dead Fish

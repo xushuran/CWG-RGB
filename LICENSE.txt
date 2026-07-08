@@ -1,0 +1,53 @@
+CWG-RGB Dataset License
+
+Dataset name:
+CWG-RGB: Low-cost RGB Floating Garbage Dataset for Complex Urban Waterways
+
+Version:
+v1.0.0
+
+License:
+Creative Commons Attribution 4.0 International License (CC BY 4.0)
+
+License URL:
+https://creativecommons.org/licenses/by/4.0/
+
+Copyright:
+Copyright (c) 2026 The CWG-RGB Dataset Authors.
+
+Scope of license:
+The CWG-RGB dataset and accompanying files are released under the Creative Commons Attribution 4.0 International License (CC BY 4.0), including:
+
+- RGB image files
+- YOLO-format annotation files
+- Background negative sample empty-label files
+- Dataset split files
+- Metadata files
+- Class definition files
+- Dataset configuration files, including:
+  - configs/dataset.yaml
+  - configs/data_no_bg.yaml
+  - configs/data_with_bg.yaml
+  - configs/training_config.yaml
+- Documentation files, including README.md and VERSION.txt
+
+Terms of use:
+Users are free to share and adapt the dataset for research, education and application development, provided that appropriate credit is given to the dataset authors, a link to the license is provided, and any changes made to the dataset are indicated.
+
+Citation:
+If you use this dataset, please cite the associated paper and the dataset repository DOI.
+
+Background negative samples:
+Background negative images are provided as empty-label images for false-positive suppression experiments. They are not treated as an additional detection category and are not counted as target instances.
+
+Privacy and ethical use:
+Images containing privacy-sensitive or research-irrelevant background information were screened before release. Users should not attempt to identify individuals, locations or other non-research-related information that may appear in the images. The dataset should be used only for lawful and ethical research or application development.
+
+Disclaimer:
+The dataset is provided "as is", without warranty of any kind. The authors are not liable for any claims, damages or other liability arising from the use of the dataset.
+
+Repository DOI:
+[DOI to be updated before release]
+
+Release date:
+[Release date to be updated before release]

@@ -1,0 +1,14 @@
+# CWG-RGB dataset configuration without background negative samples
+# This setting uses only target-containing images for training and validation.
+
+path: ..
+
+train: splits/train_pos.txt
+val: splits/val_pos.txt
+
+names:
+  0: Bags-Films
+  1: Wood
+  2: Foam
+  3: Bottles-Cans
+  4: Dead Fish

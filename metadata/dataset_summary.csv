@@ -1,0 +1,24 @@
+item,value,note
+dataset_name,CWG-RGB,Low-cost RGB floating garbage dataset for complex urban waterways
+dataset_version,v1.0.0,Initial release
+total_images,1760,Target-containing images and background negative images
+target_containing_images,1176,Images with annotated garbage targets
+background_negative_images,584,Empty-label images for background negative samples
+total_target_instances,3557,Annotated floating-garbage instances
+num_classes,5,Background is not an additional class
+class_order,Bags-Films|Wood|Foam|Bottles-Cans|Dead Fish,Class IDs are defined in class_definitions.csv
+target_train_images,919,Target-containing training images
+target_val_images,257,Target-containing validation images
+background_train_images,100,Background negative images used for training
+background_val_images,30,Background negative images used for validation
+background_reserved_images,454,Reserved background negative images
+train_with_bg_images,1019,919 target images plus 100 background negative images
+val_with_bg_images,287,257 target images plus 30 background negative images
+small_object_instances,2159,Small objects among all annotated instances
+small_object_ratio,60.70%,Percentage of small-object instances
+annotation_format,YOLO,class_id x_center y_center width height
+main_data_config,configs/data_with_bg.yaml,Main benchmark dataset configuration
+no_background_config,configs/data_no_bg.yaml,Dataset configuration without background negative samples
+original_config,configs/dataset.yaml,Original YOLO dataset configuration
+license,CC BY 4.0,To be confirmed before release
+doi,[DOI to be updated before release],Permanent dataset DOI

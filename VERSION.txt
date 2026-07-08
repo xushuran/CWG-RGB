@@ -1,0 +1,15 @@
+CWG-RGB Dataset Version Information
+
+Version: v1.0.0
+Release date: 2026-XX-XX
+
+This is the initial release of the CWG-RGB dataset for low-cost RGB floating garbage detection in complex urban waterways.
+
+The dataset contains 1760 RGB images, including 1176 target-containing images and 584 background negative images. The target-containing images include 3557 annotated instances from five categories: Bags-Films, Wood, Foam, Bottles-Cans and Dead Fish.
+
+The main split includes 919 target training images and 257 target validation images. Among the background negative images, 100 are used for training, 30 are used for validation and 454 are reserved. Background negative images are provided with empty YOLO-format TXT label files and are not counted as target instances.
+
+This release includes images, YOLO-format annotations, split files, metadata, configuration files, scripts and reproduction notes for the benchmark experiments.
+
+License: [License]
+DOI: [DOI]
