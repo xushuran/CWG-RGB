@@ -105,7 +105,8 @@ CWG-RGB/
 │
 ├── README.md
 ├── LICENSE.txt
-└── VERSION.txt
+├── VERSION.txt
+└── requirements.txt
 ```
 
 ## Images and Annotations
@@ -314,23 +315,23 @@ The scripts are provided to reproduce the benchmark experiments reported in the 
 
 ## Data Availability
 
-The CWG-RGB dataset and accompanying files are planned to be deposited in a public repository before journal submission. An anonymized review link will be provided for editors and reviewers during peer review. The dataset will be publicly released upon publication with a permanent DOI.
+The CWG-RGB dataset and accompanying files have been deposited in Zenodo with a permanent DOI. The repository includes RGB images, YOLO-format annotations, empty-label background negative samples, split files, metadata, configuration files, benchmark scripts and documentation.
 
-Repository: [Repository]
+Repository: Zenodo
 
-Dataset DOI: [Dataset DOI]
+Dataset DOI: 10.5281/zenodo.21261193
 
-Review URL: [Review URL]
+DOI URL: https://doi.org/10.5281/zenodo.21261193
+
+Review URL: [Review URL to be provided for peer review]
 
 ## Code Availability
 
 The training configurations, inference scripts, evaluation scripts, NMS settings, data checking utilities and reproduction instructions are available at:
 
-GitHub URL: [GitHub URL]
+GitHub URL: https://github.com/xushuran/CWG-RGB
 
-The archived version of the code will be deposited in a public repository with a permanent DOI.
-
-Code DOI: [Code DOI]
+The benchmark scripts are also included in the Zenodo dataset archive associated with DOI 10.5281/zenodo.21261193.
 
 ## License
 
@@ -351,6 +352,12 @@ Images containing privacy-sensitive or research-irrelevant background informatio
 ## Citation
 
 If you use this dataset or benchmark, please cite the associated paper and dataset repository DOI.
+
+Dataset DOI: 10.5281/zenodo.21261193
+
+DOI URL: https://doi.org/10.5281/zenodo.21261193
+
+GitHub repository: https://github.com/xushuran/CWG-RGB
 
 ```text
 [Citation information to be updated after publication]
