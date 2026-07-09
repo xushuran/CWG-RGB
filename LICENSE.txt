@@ -46,8 +46,17 @@ Images containing privacy-sensitive or research-irrelevant background informatio
 Disclaimer:
 The dataset is provided "as is", without warranty of any kind. The authors are not liable for any claims, damages or other liability arising from the use of the dataset.
 
+Repository:
+Zenodo
+
 Repository DOI:
-[DOI to be updated before release]
+10.5281/zenodo.21261193
+
+DOI URL:
+https://doi.org/10.5281/zenodo.21261193
+
+GitHub repository:
+https://github.com/xushuran/CWG-RGB
 
 Release date:
-[Release date to be updated before release]
+2026-07-08
