@@ -2,18 +2,18 @@
 
 ## Overview
 
-CWG-RGB is a low-cost RGB image dataset for floating garbage detection in complex urban waterways. The dataset is designed for urban waterway inspection scenarios with small floating objects, complex water-surface backgrounds and false-positive-prone non-target regions.
+CWG-RGB is a low-cost RGB image dataset for floating garbage detection in complex urban waterways. The dataset is designed for urban waterway inspection scenarios with small floating objects, complex water-surface backgrounds, and false-positive-prone non-target regions.
 
-The dataset contains 1760 RGB images, including 1176 target-containing images and 584 background negative images. A total of 3557 floating-garbage instances are annotated in YOLO format. Background negative images are provided with empty YOLO label files and are not counted as target instances.
+The dataset contains 1,760 RGB images, including 1,176 target-containing images and 584 background negative images. A total of 3,557 floating-garbage instances are annotated in YOLO format. Background negative images are provided with empty YOLO label files and are not counted as target instances.
 
 ## Dataset Statistics
 
 | Item | Number |
 |---|---:|
-| Total images | 1760 |
-| Target-containing images | 1176 |
+| Total images | 1,760 |
+| Target-containing images | 1,176 |
 | Background negative images | 584 |
-| Annotated target instances | 3557 |
+| Annotated target instances | 3,557 |
 | Number of classes | 5 |
 
 ## Class Definitions
@@ -38,7 +38,7 @@ All bounding-box coordinates are normalized by the image width and height.
 
 ## Data Split
 
-The target-containing images are divided into training and validation subsets. Background negative images are divided into training, validation and reserved subsets.
+The target-containing images are divided into training and validation subsets. Background negative images are divided into training, validation, and reserved subsets.
 
 | Subset | Number of images |
 |---|---:|
@@ -91,9 +91,9 @@ CWG-RGB/
 │   └── training_config.yaml
 │
 ├── metadata/
+│   ├── image_metadata.csv
 │   ├── class_definitions.csv
-│   ├── dataset_summary.csv
-│   └── image_metadata.csv
+│   └── dataset_summary.csv
 │
 ├── scripts/
 │   ├── train.py
@@ -119,15 +119,19 @@ Background negative images are not treated as an additional detection category a
 
 ## Background Negative Samples
 
-Background negative samples are included to improve the model's ability to distinguish floating garbage targets from complex water-surface non-target regions. These images contain no annotated garbage targets but include false-positive-prone backgrounds, such as strong reflections, aquatic vegetation, leaves, natural floating objects, building reflections, ripples, turbid water, bridge shadows and complex bank-side regions.
+Background negative samples are included to represent target-free but false-positive-prone water-surface regions. These images contain no annotated garbage targets but include visually confusing non-target backgrounds, such as strong reflections, aquatic vegetation, leaves, natural floating objects, building reflections, ripples, turbid water, bridge shadows, and complex bank-side regions.
 
-These samples are used as empty-label images in YOLO training and validation.
+These samples are used as empty-label images in YOLO training and validation. They are intended to support false-positive analysis and background discrimination in complex urban waterway scenes.
 
 ## Metadata
 
-The metadata file provides essential image-level information, including `image_id`, `file_name`, `split`, `scene_type`, `viewpoint`, `has_target`, `target_count`, `background_type` and `privacy_checked`.
+The `metadata/` directory provides three CSV files for dataset reuse: `image_metadata.csv`, `class_definitions.csv`, and `dataset_summary.csv`.
 
-The metadata is intended to support subset checking and basic scene-wise analysis. Background negative images are marked with `has_target = false` and `target_count = 0`.
+`image_metadata.csv` records image-level information, including the image identifier, relative image path, split, scene type, viewpoint, target presence, target count, background-negative status, and privacy-screening status for each image. Background negative images are marked with `has_target = false` and `target_count = 0`.
+
+`class_definitions.csv` records the class IDs, class names, category definitions, and annotation notes.
+
+`dataset_summary.csv` provides dataset-level statistics, split information, configuration-file names, license information, and the dataset DOI.
 
 ## Configuration Files
 
@@ -146,7 +150,7 @@ configs/training_config.yaml
 
 `configs/data_with_bg.yaml` is provided for reproducible experiments with background negative samples. It uses target-containing images and selected background negative images for training and validation.
 
-`configs/training_config.yaml` records the benchmark training settings, model variants, evaluation settings, NMS calibration parameters and reproduction commands.
+`configs/training_config.yaml` records the benchmark training settings, model variants, evaluation settings, NMS calibration parameters, and reproduction commands.
 
 Example of `configs/data_no_bg.yaml`:
 
@@ -184,7 +188,7 @@ The original development experiments used `dataset.yaml`, while `data_no_bg.yaml
 
 ## Benchmark Experiments
 
-The benchmark experiments include comparisons of input resolution, background negative samples, model variants, training-adapted settings, P2-head configurations and NMS parameter calibration.
+The benchmark scripts support the reference benchmark settings and auxiliary experiments described in the associated paper, including comparisons of input resolution, background negative samples, model variants, training-adapted settings, P2-head configurations, and NMS parameter calibration.
 
 The evaluated model variants include:
 
@@ -195,7 +199,7 @@ YOLO11n
 YOLO11s
 ```
 
-The main experimental settings include:
+The supported benchmark and auxiliary experimental settings include:
 
 ```text
 640 / without background + YOLOv8n
@@ -222,10 +226,7 @@ P2-head experiments
 NMS-calibrated evaluation
 ```
 
-For P2-head experiments, the model YAML names such as `yolov8s-p2.yaml`
-are resolved by Ultralytics from its built-in model configuration registry.
-These P2 configuration files are not stored as local files in the `configs/`
-directory.
+For P2-head experiments, the model YAML names such as `yolov8s-p2.yaml` are resolved by Ultralytics from its built-in model configuration registry. These P2 configuration files are not stored as local files in the `configs/` directory.
 
 ## Main Benchmark Setting
 
@@ -255,7 +256,7 @@ Maximum detections: 300
 
 ## Software and Hardware Environment
 
-Experiments were conducted on a Precision 7865 Tower workstation equipped with an AMD Ryzen Threadripper PRO 5975WX 32-Core CPU, 256 GB RAM and a single NVIDIA RTX A5500 GPU with 24 GB memory.
+Experiments were conducted on a Precision 7865 Tower workstation equipped with an AMD Ryzen Threadripper PRO 5975WX 32-Core CPU, 256 GB RAM, and a single NVIDIA RTX A5500 GPU with 24 GB memory.
 
 The software environment was:
 
@@ -311,27 +312,27 @@ Generate qualitative inference results:
 python scripts/infer.py --weights runs/train/960_bg_opt_yolov8s/weights/best.pt --source images/val --preset 960_nms_calibrated
 ```
 
-The scripts are provided to reproduce the benchmark experiments reported in the associated paper.
+The scripts are provided to reproduce the reference benchmark settings and auxiliary experiments described in the associated paper.
 
 ## Data Availability
 
-The CWG-RGB dataset and accompanying files have been deposited in Zenodo with a permanent DOI. The repository includes RGB images, YOLO-format annotations, empty-label background negative samples, split files, metadata, configuration files, benchmark scripts and documentation.
+The CWG-RGB dataset and accompanying files have been deposited in Zenodo with a permanent DOI. The repository includes RGB images, YOLO-format annotations, empty-label background negative samples, split files, metadata CSV files, configuration files, benchmark scripts, and documentation.
 
 Repository: Zenodo
 
-Dataset DOI: 10.5281/zenodo.21261193
+Dataset DOI: 10.5281/zenodo.21261194
 
-DOI URL: https://doi.org/10.5281/zenodo.21261193
+DOI URL: https://doi.org/10.5281/zenodo.21261194
 
 Review URL: [Review URL to be provided for peer review]
 
 ## Code Availability
 
-The training configurations, inference scripts, evaluation scripts, NMS settings, data checking utilities and reproduction instructions are available at:
+The training configurations, inference scripts, evaluation scripts, NMS settings, data checking utilities, and reproduction instructions are available at:
 
 GitHub URL: https://github.com/xushuran/CWG-RGB
 
-The benchmark scripts are also included in the Zenodo dataset archive associated with DOI 10.5281/zenodo.21261193.
+The benchmark scripts are also included in the Zenodo dataset archive associated with DOI 10.5281/zenodo.21261194.
 
 ## License
 
@@ -347,15 +348,15 @@ Please refer to `VERSION.txt` for detailed version information.
 
 ## Privacy and Ethical Use
 
-Images containing privacy-sensitive or research-irrelevant background information were screened before release. Users should not attempt to identify individuals, locations or other non-research-related information that may appear in the images. The dataset should be used only for lawful and ethical research or application development.
+Images containing privacy-sensitive or research-irrelevant background information were screened before release. Users should not attempt to identify individuals, locations, or other non-research-related information that may appear in the images. The dataset should be used only for lawful and ethical research or application development.
 
 ## Citation
 
 If you use this dataset or benchmark, please cite the associated paper and dataset repository DOI.
 
-Dataset DOI: 10.5281/zenodo.21261193
+Dataset DOI: 10.5281/zenodo.21261194
 
-DOI URL: https://doi.org/10.5281/zenodo.21261193
+DOI URL: https://doi.org/10.5281/zenodo.21261194
 
 GitHub repository: https://github.com/xushuran/CWG-RGB
 
